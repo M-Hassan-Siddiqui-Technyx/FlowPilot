@@ -296,6 +296,78 @@
   }
 }
 
+/* Themed dropdown for native <select>s (D-40): Chrome's customizable select (appearance: base-select) lets the open
+ * list use the design tokens while it stays a real <select> (keyboard, screen readers, form state unchanged).
+ * Browsers without support keep their native list. The closed field keeps its own classes and chevron icon. */
+@utility select-themed {
+  /* Without support: the plain field (the design draws its own chevron). */
+  appearance: none;
+  @supports (appearance: base-select) {
+    appearance: base-select;
+    /* base-select lays the field out as a flex box: keep the value vertically centred as before. */
+    align-items: center;
+    &::picker-icon {
+      display: none;
+    }
+    &::picker(select) {
+      appearance: base-select;
+      /* Open below the field whenever it fits (Chrome defaults to the side with more room); flip up only if not. */
+      position-try-order: normal;
+      margin-block: calc(var(--dp) * 6);
+      padding: calc(var(--dp) * 6);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background-color: var(--color-white);
+      box-shadow: var(--shadow-card);
+    }
+    & option {
+      gap: calc(var(--dp) * 8);
+      padding: calc(var(--dp) * 9) calc(var(--dp) * 12);
+      border-radius: var(--radius-md);
+      color: var(--color-ink);
+      font-weight: 500;
+    }
+    /* The placeholder ("Select team size") names the empty state; it isn't a choice in the open list. */
+    & option[value=''] {
+      display: none;
+    }
+    & option:is(:hover, :focus-visible) {
+      background-color: var(--color-surface-muted);
+      color: var(--color-primary);
+      outline: none;
+    }
+    & option:checked {
+      background-color: var(--color-primary-tint);
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+    & option::checkmark {
+      order: 1;
+      margin-inline-start: auto;
+      color: var(--color-primary);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      &::picker(select) {
+        transition:
+          opacity 180ms var(--ease-smooth),
+          translate 180ms var(--ease-smooth),
+          overlay 180ms allow-discrete,
+          display 180ms allow-discrete;
+      }
+      &::picker(select):popover-open {
+        opacity: 1;
+        translate: 0 0;
+      }
+      @starting-style {
+        &::picker(select):popover-open {
+          opacity: 0;
+          translate: 0 calc(var(--dp) * -6);
+        }
+      }
+    }
+  }
+}
+
 /* Sideways-scrolling rows on mobile (workflow tabs, pricing cards) keep scrolling by touch, trackpad and keyboard
  * focus, without a visible scrollbar (D-35). */
 @utility scrollbar-none {

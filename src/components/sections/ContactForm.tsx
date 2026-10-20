@@ -21,7 +21,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const controlBase =
   'w-full rounded-md border border-border bg-surface-muted autofill-bg-surface-muted text-field-sm placeholder:text-muted focus:border-muted focus:outline-hidden aria-invalid:border-danger md:bg-white md:autofill-bg-white md:text-field motion-safe:transition'
 const inputClasses = cn(controlBase, 'h-40 px-12 text-ink md:h-46 md:px-14')
-const selectClasses = cn(controlBase, 'h-40 appearance-none pr-40 pl-12 md:h-46 md:pl-14')
+const selectClasses = cn(controlBase, 'select-themed h-40 pr-40 pl-12 md:h-46 md:pl-14')
 
 const defaultValues: ContactFormValues = {
   fullName: '',

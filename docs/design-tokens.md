@@ -1,6 +1,6 @@
 # Design Tokens
 
-**Status:** synced 2026-10-20 from the Figma file [Flow Pilot](https://www.figma.com/design/WAHeIX5DCB0FAYZ2lOcr6d/Flow-Pilot?node-id=1-580) (REST API inventory during development; re-checked through the Figma MCP, which reports no variables). The file has **no Figma variables or styles**, so every token is named by role and the "Figma source" column gives the raw value and where it's used.
+**Status:** synced 2026-10-20 from the Figma file [Flow Pilot](https://www.figma.com/design/WAHeIX5DCB0FAYZ2lOcr6d/Flow-Pilot?node-id=1-580) (checked through the Figma MCP, which reports no variables). The file has **no Figma variables or styles**, so every token is named by role and the "Figma source" column gives the raw value and where it's used.
 
 Tokens are defined in the `@theme` block of `src/index.css`, and Tailwind generates a utility for each one (`--color-primary` → `bg-primary`, `text-primary`, …). Components must use these utilities rather than literal values. See `.claude/rules/styling.md`. The default colour, type, radius and shadow scales are reset (`--color-*: initial` etc.), so off-design values can't be used by accident.
 

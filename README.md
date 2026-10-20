@@ -34,7 +34,7 @@ npm install
 
 ## Design
 
-Design file: [Flow Pilot](https://www.figma.com/design/WAHeIX5DCB0FAYZ2lOcr6d/Flow-Pilot?node-id=1-580) (desktop `1:580`, mobile `2:1005`, mobile menu `16:584`), read through the Figma MCP (`mcp.figma.com`). The desktop frame renders 1:1 at 1280; the brief's 1440 page is the same layout ×1.125. During development each section was pixel-diffed against Figma with a local compare script (Figma REST API + Chrome/Edge screenshots); that tooling was removed before submission.
+Design file: [Flow Pilot](https://www.figma.com/design/WAHeIX5DCB0FAYZ2lOcr6d/Flow-Pilot?node-id=1-580) (desktop `1:580`, mobile `2:1005`, mobile menu `16:584`), read through the Figma MCP (`mcp.figma.com`). The desktop frame renders 1:1 at 1280; the brief's 1440 page is the same layout ×1.125. During development each section was pixel-diffed against Figma with a local compare script (Figma frame renders vs Chrome/Edge screenshots); that tooling was removed before submission.
 
 ## Project Docs & Claude Setup
 
@@ -93,4 +93,4 @@ The full log with reasons and alternatives is in [`docs/decisions.md`](docs/deci
 - Testimonial autoplay can be stopped only from the keyboard or a screen reader (the Pause control is hidden until focused, and hover doesn't pause, by design choice), so mouse/touch users can't stop it: a WCAG 2.2.2 gap (D-20).
 - Some brand colour pairs are just under WCAG AA (listed in `docs/design-tokens.md`); they were left as designed (D-15).
 - The fluid root follows the viewport, so browser zoom enlarges text only when the zoomed viewport falls into a smaller breakpoint range (200% at 1440 → tablet layout at 2×; at 1920, 200% gives about 180%). 110–175% barely change it, and the browser's default font-size setting is ignored on desktop. Small desktops (1024–1120px) render at 0.875× (14px root floor) (D-22, D-29).
-- The Figma REST token is rate-limited, so references are cropped from cached frame renders. The new file's empty `Frame 2` above the hero headline is intentionally not reproduced (D-24).
+- The updated Figma file's empty `Frame 2` above the hero headline is intentionally not reproduced (D-24).
