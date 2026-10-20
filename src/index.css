@@ -1,0 +1,440 @@
+/* Only scan src/ for class names; the docs and .claude rules contain example classes that must not ship. */
+@import 'tailwindcss' source('.');
+
+/*
+ * Design tokens from the FlowPilot Figma file (WAHeIX5DCB0FAYZ2lOcr6d), documented in docs/design-tokens.md.
+ * The file has no Figma variables or styles, so names are by role. Lengths are in design pixels (--dp, defined
+ * below the theme): one unit is one Figma pixel, rendered in rem against the fluid root font size.
+ */
+@theme {
+  /* ---------- Colours (default palette disabled: off-design colours can't be used) ---------- */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-ink: #101828; /* headings, primary text */
+  --color-muted: #667085; /* body copy, nav links, captions */
+  --color-subtle: #98a2b3; /* "Upcoming" status */
+  --color-placeholder: #6b7280; /* textarea placeholder, select chevron */
+  --color-logos: #7a879b; /* trusted-by company names */
+  /* Official brand colours of the trusted-by names, shown on hover (not in Figma; D-32). */
+  --color-brand-google-blue: #4285f4;
+  --color-brand-google-red: #ea4335;
+  --color-brand-google-yellow: #fbbc05;
+  --color-brand-google-green: #34a853;
+  --color-brand-slack: #4a154b;
+  --color-brand-notion: #000000;
+  --color-brand-spotify: #1db954;
+  --color-brand-zoom: #0b5cff;
+  --color-brand-shopify: #95bf47;
+  --color-primary: #2f5bff; /* brand blue: gradient start, links, eyebrow text */
+  --color-accent: #7b4dff; /* brand violet: gradient end, quote mark */
+  --color-focus: #2f5bff;
+  --color-border: #dce3f0; /* cards, inputs, outline buttons */
+  --color-divider: #eef1f5; /* header/footer rules, table rows, mobile sidebar */
+  --color-surface-muted: #f6f8fc; /* mockup sidebar, mobile inputs */
+  --color-surface-raised: #fbfcfe; /* mockup stat cards */
+  --color-tint-from: #f2f6ff; /* hero / banner / contact background gradient */
+  --color-tint-to: #f6f1ff;
+  --color-primary-tint: #eaf0ff; /* active mockup nav item */
+  --color-primary-wash: #eef2ff; /* "New" pill badge, progress track */
+  --color-primary-faint: #f1f5ff; /* mockup task checkbox */
+  --color-success: #22b573; /* check icons, "Completed" */
+  --color-warning: #ff9f43; /* "In Progress" */
+  --color-danger: #d92d20; /* form validation errors (not in Figma; see docs/decisions.md) */
+  --color-rating: #f7b500; /* testimonial stars */
+  --color-icon-plan: #4f6bff; /* feature icon tiles */
+  --color-icon-ai: #8a5cff;
+  --color-icon-team: #2ebf8b;
+  --color-icon-automation: #ff9f43;
+  /* Mobile menu (16:584) uses a slate palette of its own */
+  --color-menu-ink: #1e293b;
+  --color-menu-icon: #94a3b8;
+  --color-menu-close: #334155;
+  --color-menu-border: #e2e8f0;
+  --color-menu-cta-from: #5b47fb;
+  --color-menu-cta-to: #4f46e5;
+  --color-menu-cta-glow: #c7d2fe;
+
+  /* ---------- Fonts ---------- */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-menu: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-weight-heavy: 750; /* mobile headings */
+
+  /* ---------- Type scale: size / line height in design pixels (see --dp below) ---------- */
+  --text-*: initial;
+  --text-3xs: calc(var(--dp) * 8); /* 8 — mobile mockup stat labels */
+  --text-3xs--line-height: calc(var(--dp) * 10); /* 10 */
+  --text-mock-status: calc(var(--dp) * 8.5); /* 8.5 — mobile mockup task status */
+  --text-mock-status--line-height: calc(var(--dp) * 12.75); /* 12.75 */
+  --text-mock-task: calc(var(--dp) * 9.5); /* 9.5 — mobile mockup task name */
+  --text-mock-task--line-height: calc(var(--dp) * 14.25); /* 14.25 */
+  --text-badge-sm: calc(var(--dp) * 10); /* 10 — mobile pill badge */
+  --text-badge-sm--line-height: calc(var(--dp) * 10); /* 10 */
+  --text-mock-caption: calc(var(--dp) * 9.5); /* 9.5 — mobile mockup subtitle */
+  --text-mock-caption--line-height: calc(var(--dp) * 11.88); /* 11.88 */
+  --text-stat-sm: calc(var(--dp) * 14); /* 14 — mobile mockup stat value */
+  --text-stat-sm--line-height: calc(var(--dp) * 14); /* 14 */
+  --text-lead-sm: calc(var(--dp) * 14); /* 14 — mobile hero lead */
+  --text-lead-sm--line-height: calc(var(--dp) * 20); /* 20 */
+  --text-tiny: calc(var(--dp) * 10); /* 10 — mobile testimonial role */
+  --text-tiny--line-height: calc(var(--dp) * 15); /* 15 */
+  --text-2xs: calc(var(--dp) * 11); /* 11 */
+  --text-2xs--line-height: calc(var(--dp) * 16.5); /* 16.5 */
+  --text-xs: calc(var(--dp) * 12); /* 12 */
+  --text-xs--line-height: calc(var(--dp) * 18); /* 18 */
+  --text-sm: calc(var(--dp) * 13); /* 13 */
+  --text-sm--line-height: calc(var(--dp) * 19.5); /* 19.5 */
+  --text-base: calc(var(--dp) * 14); /* 14 */
+  --text-base--line-height: calc(var(--dp) * 21); /* 21 */
+  --text-field-sm: calc(var(--dp) * 13); /* 13 — mobile form controls */
+  --text-field-sm--line-height: calc(var(--dp) * 24); /* 24 */
+  --text-field: calc(var(--dp) * 14); /* 14 — form controls */
+  --text-field--line-height: calc(var(--dp) * 24); /* 24 */
+  --text-body-relaxed: calc(var(--dp) * 13); /* 13 — contact intro */
+  --text-body-relaxed--line-height: calc(var(--dp) * 21.13); /* 21.13 */
+  --text-md: calc(var(--dp) * 15); /* 15 */
+  --text-md--line-height: calc(var(--dp) * 22.5); /* 22.5 */
+  --text-feature-title-sm: calc(var(--dp) * 14); /* 14 — mobile feature card title */
+  --text-feature-title-sm--line-height: calc(var(--dp) * 17.5); /* 17.5 */
+  --text-feature-body: calc(var(--dp) * 13); /* 13 — desktop feature card copy */
+  --text-feature-body--line-height: calc(var(--dp) * 16.9); /* 16.9 */
+  --text-card-title: calc(var(--dp) * 16); /* 16 — workflow card title */
+  --text-card-title--line-height: calc(var(--dp) * 22); /* 22 */
+  --text-lg: calc(var(--dp) * 16); /* 16 */
+  --text-lg--line-height: calc(var(--dp) * 24); /* 24 */
+  --text-logo: calc(var(--dp) * 17); /* 17 */
+  --text-logo--line-height: calc(var(--dp) * 25.5); /* 25.5 */
+  --text-xl: calc(var(--dp) * 18); /* 18 */
+  --text-xl--line-height: calc(var(--dp) * 29.25); /* 29.25 */
+  --text-quote-sm: calc(var(--dp) * 14); /* 14 — mobile testimonial quote */
+  --text-quote-sm--line-height: calc(var(--dp) * 19); /* 19 */
+  --text-quote: calc(var(--dp) * 18); /* 18 — testimonial quote */
+  --text-quote--line-height: calc(var(--dp) * 24.3); /* 24.3 */
+  --text-arrow: calc(var(--dp) * 18); /* 18 — slider arrow glyphs */
+  --text-arrow--line-height: calc(var(--dp) * 27); /* 27 */
+  --text-2xl: calc(var(--dp) * 20); /* 20 */
+  --text-2xl--line-height: calc(var(--dp) * 25); /* 25 */
+  --text-stat: calc(var(--dp) * 21); /* 21 — mockup stat value */
+  --text-stat--line-height: calc(var(--dp) * 26.25); /* 26.25 */
+  --text-stat-lg: calc(var(--dp) * 40); /* 40 — workflow stat */
+  --text-stat-lg--line-height: calc(var(--dp) * 40); /* 40 */
+  --text-logo-strip: calc(var(--dp) * 22); /* 22 */
+  --text-logo-strip--line-height: calc(var(--dp) * 33); /* 33 */
+  --text-quote-mark-sm: calc(var(--dp) * 44); /* 44 */
+  /* 28px line box: the glyph sits 8px above its 40px frame, as in Figma 2:1065 */
+  --text-quote-mark-sm--line-height: calc(var(--dp) * 28);
+  --text-quote-mark: calc(var(--dp) * 54); /* 54 */
+  --text-quote-mark--line-height: calc(var(--dp) * 54);
+  --text-price-sm: calc(var(--dp) * 34); /* 34 — mobile plan price */
+  --text-price-sm--line-height: calc(var(--dp) * 42.5); /* 42.5 */
+  --text-price: calc(var(--dp) * 34); /* 34 */
+  --text-price--line-height: calc(var(--dp) * 34); /* 34 */
+  --text-h3: calc(var(--dp) * 24); /* 24 */
+  --text-h3--line-height: calc(var(--dp) * 30); /* 30 */
+  --text-h2-sm: calc(var(--dp) * 26); /* 26 */
+  --text-h2-sm--line-height: calc(var(--dp) * 28); /* 28 */
+  --text-h2-sm-loose: calc(var(--dp) * 26); /* 26 — mobile testimonials title */
+  --text-h2-sm-loose--line-height: calc(var(--dp) * 45); /* 45 */
+  --text-h2-md: calc(var(--dp) * 30); /* 30 */
+  --text-h2-md--line-height: calc(var(--dp) * 37.5); /* 37.5 */
+  --text-h2-tight: calc(var(--dp) * 34); /* 34 — contact title */
+  --text-h2-tight--line-height: calc(var(--dp) * 37.4); /* 37.4 */
+  --text-h2: calc(var(--dp) * 34); /* 34 */
+  --text-h2--line-height: calc(var(--dp) * 51); /* 51 */
+  --text-h2-lg: calc(var(--dp) * 36); /* 36 */
+  --text-h2-lg--line-height: calc(var(--dp) * 45); /* 45 */
+  --text-h2-lg-loose: calc(var(--dp) * 36); /* 36 — pricing title */
+  --text-h2-lg-loose--line-height: calc(var(--dp) * 54); /* 54 */
+  --text-display-sm: calc(var(--dp) * 36); /* 36 — mobile hero */
+  --text-display-sm--line-height: calc(var(--dp) * 36); /* 36 */
+  --text-display-sm--letter-spacing: -0.025em; /* -0.9px */
+  --text-display: calc(var(--dp) * 58); /* 58 — desktop hero */
+  --text-display--line-height: calc(var(--dp) * 62.64); /* 62.64 */
+  --text-display--letter-spacing: -0.025em; /* -1.45px */
+  --text-menu: calc(var(--dp) * 16.8); /* 16.8 — mobile menu links */
+  --text-menu--line-height: calc(var(--dp) * 25.2); /* 25.2 */
+  --text-menu-cta: calc(var(--dp) * 15.7); /* 15.7 — mobile menu buttons */
+  --text-menu-cta--line-height: calc(var(--dp) * 23.52); /* 23.52 */
+
+  /* Letter spacing (Figma px ÷ font size) */
+  --tracking-tight: -0.025em; /* logo, section titles */
+  --tracking-wide: 0.025em; /* "TESTIMONIALS", "Most Popular" */
+  --tracking-wider: 0.05em; /* "GET IN TOUCH" */
+  --tracking-widest: 0.1em; /* rating stars */
+
+  /* ---------- Radii ---------- */
+  --radius-*: initial;
+  --radius-xs: calc(var(--dp) * 4); /* 4 — mobile mockup checkbox */
+  --radius-sm: calc(var(--dp) * 6); /* 6 — mockup checkbox */
+  --radius-md: calc(var(--dp) * 8); /* 8 — inputs, mockup nav item */
+  --radius-control: calc(var(--dp) * 10); /* 10 — buttons, tabs */
+  --radius-lg: calc(var(--dp) * 12); /* 12 — stat cards, icon tiles, menu items */
+  --radius-pill-sm: calc(var(--dp) * 13); /* 13 — mobile pill badge */
+  --radius-pill: calc(var(--dp) * 14); /* 14 — pill badge, sidebar, tab card, mobile cards */
+  --radius-card: calc(var(--dp) * 16); /* 16 */
+  --radius-card-lg: calc(var(--dp) * 18); /* 18 — mockup, testimonial */
+  --radius-banner: calc(var(--dp) * 24); /* 24 */
+  --radius-full: calc(infinity * 1px);
+
+  /* ---------- Shadows ---------- */
+  --shadow-*: initial;
+  --shadow-xs: 0 calc(var(--dp) * 1) calc(var(--dp) * 2) 0 #0000000d; /* buttons */
+  --shadow-sm: 0 calc(var(--dp) * 1) calc(var(--dp) * 3) 0 #0000001a, 0 calc(var(--dp) * 1) calc(var(--dp) * 2) calc(var(--dp) * -1) #0000001a; /* pill tabs */
+  --shadow-card: 0 calc(var(--dp) * 10) calc(var(--dp) * 36) 0 #1d2a571a; /* mockup, testimonial, featured plan, contact card */
+  --shadow-menu: 0 calc(var(--dp) * 25) calc(var(--dp) * 50) calc(var(--dp) * -12) #00000040; /* mobile menu panel */
+  --shadow-menu-cta: 0 calc(var(--dp) * 1) calc(var(--dp) * 2) 0 var(--color-menu-cta-glow);
+  --shadow-header: 0 calc(var(--dp) * 8) calc(var(--dp) * 24) calc(var(--dp) * -16) #1d2a5740; /* sticky header once the page scrolls (not in Figma) */
+
+  /* ---------- Motion (not in Figma; every use is motion-safe) ---------- */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1); /* soft ease-out for entrances and hovers */
+  --animate-fade-in: fade-in 200ms ease-out both;
+  --animate-fade-up: fade-up 700ms var(--ease-smooth) both;
+  --animate-menu-in: fade-down 250ms var(--ease-smooth) both;
+  /* Testimonial slider: the new quote enters from the side of travel while the old one leaves the other way. */
+  --animate-slide-enter-next: slide-enter-next 600ms var(--ease-smooth) both;
+  --animate-slide-enter-prev: slide-enter-prev 600ms var(--ease-smooth) both;
+  --animate-slide-exit-next: slide-exit-next 450ms var(--ease-smooth) both;
+  --animate-slide-exit-prev: slide-exit-prev 450ms var(--ease-smooth) both;
+  /* Pricing: prices and the /month|/year suffix roll in when the billing period changes. */
+  --animate-price-in: price-in 450ms var(--ease-smooth) both;
+  /* Workflow tabs: the new tab's copy enters from the side of travel; the progress bar grows in on first reveal. */
+  --animate-tab-enter-next: tab-enter-next 450ms var(--ease-smooth) both;
+  --animate-tab-enter-prev: tab-enter-prev 450ms var(--ease-smooth) both;
+  --animate-bar-grow: bar-grow 900ms var(--ease-smooth) 300ms backwards;
+  @keyframes tab-enter-next {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--dp) * 24));
+      filter: blur(calc(var(--dp) * 2));
+    }
+  }
+  @keyframes tab-enter-prev {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--dp) * -24));
+      filter: blur(calc(var(--dp) * 2));
+    }
+  }
+  @keyframes bar-grow {
+    from {
+      width: 0;
+    }
+  }
+  /* Autoplay clock: the active bullet fills over 6s and its animationend advances the slider. */
+  --animate-slide-progress: slide-progress 6s linear both;
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--dp) * 4));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-down {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--dp) * -8));
+    }
+  }
+  @keyframes slide-enter-next {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--dp) * 48)) scale(0.98);
+      filter: blur(calc(var(--dp) * 4));
+    }
+  }
+  @keyframes slide-enter-prev {
+    from {
+      opacity: 0;
+      transform: translateX(calc(var(--dp) * -48)) scale(0.98);
+      filter: blur(calc(var(--dp) * 4));
+    }
+  }
+  @keyframes slide-exit-next {
+    to {
+      opacity: 0;
+      transform: translateX(calc(var(--dp) * -48)) scale(0.98);
+      filter: blur(calc(var(--dp) * 4));
+    }
+  }
+  @keyframes slide-exit-prev {
+    to {
+      opacity: 0;
+      transform: translateX(calc(var(--dp) * 48)) scale(0.98);
+      filter: blur(calc(var(--dp) * 4));
+    }
+  }
+  @keyframes price-in {
+    from {
+      opacity: 0;
+      transform: translateY(calc(var(--dp) * 12));
+      filter: blur(calc(var(--dp) * 3));
+    }
+  }
+  @keyframes slide-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* ---------- Spacing: one unit = one design pixel (--dp), so p-20 is 20px in the Figma frame ---------- */
+  --spacing: var(--dp);
+  /* Fixed 2px lines (nav underline, scroll progress). In dp they'd be 2.5px at 1920, which renders blurred and
+     thicker while animating and snaps thinner when it stops; hairlines stay px, like borders. */
+  --spacing-hairline: 2px;
+}
+
+/* Shared keyboard focus indicator for links and controls. */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* Sideways-scrolling rows on mobile (workflow tabs, pricing cards) keep scrolling by touch, trackpad and keyboard
+ * focus, without a visible scrollbar (D-35). */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Keeps a field's design colours when the browser autofills it: `autofill-bg-white` names the field's background token.
+ * Chrome paints autofilled fields light blue with black text through !important browser styles that page CSS can't
+ * override, so an inset shadow in the field's own background covers the blue (100vmax: always larger than the field)
+ * and -webkit-text-fill-color restores the ink text. The shadow sits inside the border, so focus and error borders show. */
+@utility autofill-bg-* {
+  &:autofill {
+    box-shadow: inset 0 0 0 100vmax --value(--color-*);
+    -webkit-text-fill-color: var(--color-ink);
+  }
+}
+
+/* ---------- Scroll-linked motion ----------
+ * The header progress bar and shadow are pure CSS scroll-driven animations (no JavaScript, no scroll listeners).
+ * Browsers without `animation-timeline` (and users who prefer reduced motion) simply get the static design. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--dp) * 24));
+  }
+}
+@keyframes grow-x {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes header-shadow {
+  to {
+    box-shadow: var(--shadow-header);
+  }
+}
+
+/* Reveal on scroll (docs/decisions.md D-25): `.reveal` elements rise and fade in once, the first time they come
+ * into view (src/hooks/useRevealOnScroll.ts adds `data-revealed`). They're only hidden while the page carries
+ * `reveal-ready`, which that hook sets, so without JavaScript nothing stays invisible. `--reveal-delay` staggers
+ * items in a list. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .reveal-ready .reveal {
+    transition:
+      opacity 700ms var(--ease-smooth) var(--reveal-delay, 0ms),
+      transform 700ms var(--ease-smooth) var(--reveal-delay, 0ms);
+  }
+  .reveal-ready .reveal:not([data-revealed]) {
+    opacity: 0;
+    transform: translateY(calc(var(--dp) * 32));
+  }
+}
+
+/* Thin bar that fills from left to right with the page scroll position. */
+@utility scroll-progress {
+  transform: scaleX(0);
+  transform-origin: left;
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+/* Soft shadow that fades in over the first 80 design pixels of scrolling. */
+@utility scroll-shadow {
+  @supports (animation-timeline: scroll()) {
+    animation: header-shadow linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 calc(var(--dp) * 80);
+  }
+}
+
+/* Freezes a running animation in place (the slider pauses its progress bullet on hover/focus/off-screen).
+ * !important so it wins over the `animation` shorthand of the animate-* utility on the same element. */
+@utility animation-paused {
+  animation-play-state: paused !important;
+}
+
+/* Staggered on-load entrances: `anim-delay-120` → 120ms. */
+@utility anim-delay-* {
+  animation-delay: calc(--value(integer) * 1ms);
+}
+
+/*
+ * Fluid rem root (docs/decisions.md D-22, D-29). Every size is rem-based, and the root font size follows the viewport,
+ * so each Figma frame renders 1:1 at its own width and scales proportionally around it:
+ *   phones (< lg)   12px at 375px wide, clamped to 10–16px
+ *   desktop (≥ lg)  16px at 1280px wide (the desktop frame's real width), growing to 18px at 1440, where the brief's
+ *                   1440 page is the frame ×1.125 (72px margins, 1296px content). Clamped to 14–18px: the 14px floor
+ *                   keeps small desktops (1024–1120px, stacked layouts) readable; above 1440 the size stays and the
+ *                   Container centres the 1152dp content (D-30).
+ * --dp is one Figma pixel in rem. The 375 frames are drawn for a 12px root, the desktop frame for a 16px root;
+ * tablets (md) use the desktop styles at the 16px root. Breakpoints are unaffected, because rem inside media
+ * queries always refers to the browser default (16px), not to this root size.
+ * Trade-off: because the root follows the viewport, browser zoom only enlarges text when the zoomed viewport drops
+ * into a smaller range (e.g. 200% at 1440 → tablet layout at 2×); 110–175% barely change it, and the browser's
+ * default font-size setting is ignored inside the vw range. See D-22.
+ */
+:root {
+  --dp: calc(1rem / 12);
+  @variant md {
+    --dp: calc(1rem / 16);
+  }
+}
+
+html {
+  font-size: clamp(0.625rem, 100vw * 12 / 375, 1rem);
+  /* Anchor targets clear the sticky header: 64dp mobile, 76dp desktop. */
+  scroll-padding-top: calc(var(--spacing) * 64);
+  scroll-behavior: smooth;
+  @variant lg {
+    font-size: clamp(0.875rem, 100vw * 16 / 1280, 1.125rem);
+    scroll-padding-top: calc(var(--spacing) * 76);
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: var(--color-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lock page scroll while the full-screen mobile menu is open (it only exists below lg). */
+body:has([data-scroll-lock]:not([hidden])) {
+  overflow: hidden;
+  @variant lg {
+    overflow: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
